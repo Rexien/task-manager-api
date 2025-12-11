@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 # Final stage
 FROM python:3.12-slim
@@ -19,9 +19,8 @@ RUN addgroup --system app && adduser --system --group app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV PATH="/home/app/.local/bin:$PATH"
 
-COPY --from=builder /root/.local /home/app/.local
+COPY --from=builder /install /usr/local
 COPY . .
 
 # Chown all the files to the app user
