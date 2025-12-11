@@ -11,10 +11,15 @@ provider "aws" {
   region = var.aws_region
 }
 
-# 1. Create a Security Group (Firewall)
-# This defines who can talk to our server.
+# 1. Create a Random ID to prevent name collisions in stateless CI
+resource "random_id" "sg_suffix" {
+  byte_length = 4
+}
+
+# 2. Create a Security Group (Firewall)
+# Name includes random suffix so it never conflicts
 resource "aws_security_group" "app_sg" {
-  name        = "${var.project_name}-sg-v3"
+  name        = "${var.project_name}-sg-${random_id.sg_suffix.hex}"
   description = "Allow web and ssh traffic"
 
   # Allow HTTP traffic on port 5000 (where our Flask app runs)
