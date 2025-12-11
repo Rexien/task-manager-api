@@ -80,18 +80,25 @@ resource "aws_instance" "app_server" {
               #!/bin/bash
               echo "Starting setup..."
               
-              # Update and install Docker
+              # 1. Install Docker & Docker Compose
               apt-get update
-              apt-get install -y docker.io docker-compose
+              apt-get install -y docker.io docker-compose git
               
-              # Start Docker service
+              # 2. Start Docker
               systemctl start docker
               systemctl enable docker
-              
-              # Add current user to docker group
               usermod -aG docker ubuntu
-              
-              echo "Setup complete!"
+
+              # 3. Clone the Repo
+              cd /home/ubuntu
+              git clone https://github.com/Rexien/task-manager-api.git
+              cd task-manager-api
+
+              # 4. Start the App (Background)
+              # Use the checked-in deployment script or direct docker-compose
+              docker-compose up -d
+
+              echo "Setup complete! App is running on port 80."
               EOF
 
   tags = {
