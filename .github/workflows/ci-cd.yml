@@ -31,7 +31,7 @@ jobs:
           API_KEY: test-key
           LOG_LEVEL: INFO
         run: |
-          pytest
+          python -m pytest
 
   security:
     name: 🛡️ Security Scans
