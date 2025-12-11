@@ -14,7 +14,7 @@ provider "aws" {
 # 1. Create a Security Group (Firewall)
 # This defines who can talk to our server.
 resource "aws_security_group" "app_sg" {
-  name        = "${var.project_name}-sg"
+  name        = "${var.project_name}-sg-v2"
   description = "Allow web and ssh traffic"
 
   # Allow HTTP traffic on port 5000 (where our Flask app runs)
